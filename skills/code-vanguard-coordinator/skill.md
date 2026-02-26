@@ -84,6 +84,19 @@ description: Code Vanguard team coordinator skill. Analyzes programming tasks, c
 3. **结果导向** - 目标是完成任务，不是遵循流程
 4. **透明沟通** - 向用户同步进度和决策
 
+## 子代理运行模式
+
+> ⚠️ **重要**：部分专家配置了 MCP 工具，必须前台运行！
+
+| 专家 | MCP 工具 | 运行模式 |
+|------|----------|----------|
+| Phoenix | sequential-thinking, context7, aurai-advisor | **必须前台运行** |
+| Viper | 基础工具 | 可后台运行 |
+| Ghost | context7 | **必须前台运行** |
+| Oracle | sequential-thinking, context7, aurai-advisor, web-search, web-reader | **必须前台运行** |
+
+> MCP 工具在后台子代理中不可用，调用配置了 MCP 工具的专家时必须前台运行。
+
 ## 可用协作模式（参考）
 
 > 以下是常见模式示例，实际可根据需要自由组合或创新
@@ -112,5 +125,3 @@ description: Code Vanguard team coordinator skill. Analyzes programming tasks, c
 3. **实现后测试** → Viper 后 Ghost
 4. **需要创新** → Oracle 顾问支持
 5. **完整项目** → 链式协作
-
-$ARGUMENTS
