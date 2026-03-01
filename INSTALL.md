@@ -1,163 +1,287 @@
-# 代码先锋团队 - 安装说明
+# Code Vanguard 团队安装指南
 
-## 系统要求
-
-- Claude Code CLI 或兼容的 AI 编程助手
-- 支持 YAML 前置元数据的 Markdown 解析能力
-- 推荐模型：GLM5、Claude Opus/Sonnet 等
-
-## 安装步骤
-
-### 步骤 1：安装专家 Agent
-
-```bash
-# Windows (Git Bash / PowerShell)
-mkdir -p ~/.claude/agents
-cp agents/code-vanguard-phoenix.md ~/.claude/agents/
-cp agents/code-vanguard-viper.md ~/.claude/agents/
-cp agents/code-vanguard-ghost.md ~/.claude/agents/
-cp agents/code-vanguard-oracle.md ~/.claude/agents/
-
-# macOS / Linux
-mkdir -p ~/.claude/agents
-cp agents/code-vanguard-*.md ~/.claude/agents/
-```
-
-### 步骤 2：安装协调器 Skill
-
-```bash
-# Windows (Git Bash / PowerShell)
-mkdir -p ~/.claude/skills
-cp -r skills/code-vanguard-coordinator ~/.claude/skills/
-
-# macOS / Linux
-mkdir -p ~/.claude/skills
-cp -r skills/code-vanguard-coordinator ~/.claude/skills/
-```
-
-### 步骤 3：验证安装
-
-```bash
-# 检查 agents
-ls ~/.claude/agents/code-vanguard-*.md
-
-# 应输出：
-# code-vanguard-phoenix.md
-# code-vanguard-viper.md
-# code-vanguard-ghost.md
-# code-vanguard-oracle.md
-
-# 检查 skill
-ls ~/.claude/skills/code-vanguard-coordinator/
-
-# 应输出：
-# skill.md
-# references/
-```
-
-## 生效方式
-
-**重要**：修改或新增配置文件后，需要重启 Claude Code 会话才能加载新配置。
-
-1. 关闭当前 Claude Code 会话
-2. 重新启动 Claude Code
-3. 新配置将自动加载
-
-## 使用测试
-
-启动新会话后，测试团队是否正常工作：
-
-```
-# 测试架构师
-用户：帮我设计一个用户认证系统的架构
-预期：Phoenix 输出架构设计文档
-
-# 测试开发者
-用户：写一个 Python 快速排序函数
-预期：Viper 输出可运行代码
-
-# 测试完整项目
-用户：帮我设计并实现一个用户登录 API，包含测试用例
-预期：协调器协调 Phoenix → Viper → Ghost 完成任务
-```
-
-## 配置说明
-
-### 专家工具权限
-
-| 专家 | 工具 | 权限级别 |
-|------|------|----------|
-| Phoenix | Read, Glob, Grep, Write, Edit, Bash | 写入 + 执行 |
-| Viper | Read, Glob, Grep, Write, Edit, Bash, LSP | 写入 + 执行 |
-| Ghost | Read, Glob, Grep, Bash | 只读 + 执行 |
-| Oracle | Read, Glob, Grep, Bash | 只读 + 执行 |
-
-### 模型配置
-
-所有专家默认使用 `sonnet` 模型。可根据需要修改配置文件中的 `model` 字段：
-
-```yaml
-model: opus    # 更强推理能力
-model: haiku   # 更快响应速度
-model: inherit # 继承父会话模型
-```
-
-## 故障排除
-
-### 问题1：专家未被识别
-
-**症状**：调用专家无反应
-
-**解决方案**：
-1. 确认配置文件位于正确目录
-2. 确认已重启会话
-3. 检查配置文件格式是否正确
-4. 确认 YAML 前置元数据格式无误
-
-### 问题2：协调器无法调用专家
-
-**症状**：协调器只输出文字，不调用其他专家
-
-**解决方案**：
-1. 确认所有专家配置文件都已复制
-2. 确认专家配置文件名称包含 `code-vanguard-` 前缀
-3. 确认协调器 skill 中的 subagent_type 与专家名称匹配
-
-### 问题3：中文输出乱码
-
-**症状**：文档中出现乱码
-
-**解决方案**：
-确保所有配置文件使用 UTF-8 编码保存。
-
-## 卸载
-
-### 用户级卸载
-
-```bash
-# Windows (Git Bash)
-rm ~/.claude/agents/code-vanguard-*.md
-rm -rf ~/.claude/skills/code-vanguard-coordinator
-
-# macOS / Linux
-rm ~/.claude/agents/code-vanguard-*.md
-rm -rf ~/.claude/skills/code-vanguard-coordinator
-```
-
-## 更新日志
-
-### v2.0.0 (2025)
-- 协调器从 Agent 改为 Skill 架构
-- 专家名称添加团队前缀避免重名
-- 新增 patterns-examples.md 参考文档
-- 强调委托优先原则
-
-### v1.0.0 (2024)
-- 基于 Claude Code 子代理机制构建
-- 包含 4 位专家 + 1 位协调器
-- 支持四种协作模式
-- 中文优化
+> **团队名称**：code-vanguard
+> **团队类型**：混合型（支持串行/并行/混合执行）
+> **配置包版本**：3.0
 
 ---
 
-如有问题，请参考 [README.md](README.md) 或查看配置文件中的详细说明。
+## 📦 安装步骤
+
+### 步骤 1️⃣：安装协调器 Skill
+
+协调器是团队的入口，必须先安装。
+
+**文件位置**：
+```
+skills/code-vanguard-coordinator/skill.md
+```
+
+**安装位置**：
+```
+%USERPROFILE%\.claude\skills\code-vanguard-coordinator\skill.md
+```
+
+**操作**：
+1. 复制 `skills/code-vanguard-coordinator/skill.md`
+2. 粘贴到 `C:\Users\Mr.Chen\.claude\skills\code-vanguard-coordinator\skill.md`
+3. 如需覆盖现有文件，请先备份
+
+---
+
+### 步骤 2️⃣：安装专家 Agent 配置
+
+安装所有 4 位专家成员的配置。
+
+**文件位置**：
+```
+agents/
+├── code-vanguard-phoenix.md    # 架构师
+├── code-vanguard-viper.md      # 开发者
+├── code-vanguard-ghost.md      # 测试专家
+└── code-vanguard-oracle.md     # 创新者
+```
+
+**安装位置**：
+```
+%USERPROFILE%\.claude\agents\
+├── code-vanguard-phoenix.md
+├── code-vanguard-viper.md
+├── code-vanguard-ghost.md
+└── code-vanguard-oracle.md
+```
+
+**操作**：
+1. 复制 `agents/` 目录下所有 `.md` 文件
+2. 粘贴到 `C:\Users\Mr.Chen\.claude\agents\` 目录
+3. 如需覆盖现有文件，请先备份
+
+---
+
+### 步骤 3️⃣：验证安装
+
+安装完成后，验证配置是否正确。
+
+**验证方法**：
+```markdown
+# 触发协调器测试
+用户: 帮我设计一个用户认证系统
+协调器: 我是 Code Vanguard 协调器，我将协调团队完成此任务...
+```
+
+**验证清单**：
+- [ ] 协调器能正确响应
+- [ ] 协调器显示团队成员列表
+- [ ] 协调器能触发专家 agent
+- [ ] 专家 agent 能正常工作
+
+---
+
+## 🔍 配置文件说明
+
+### 协调器配置
+
+**文件**：`skills/code-vanguard-coordinator/skill.md`
+
+**关键字段**：
+```yaml
+---
+name: code-vanguard-coordinator
+description: Code Vanguard (代码先锋) team coordinator skill...
+---
+
+# 以下是协调器的正文内容
+# 包含核心原则、执行流程、MCP 授权机制等
+```
+
+**要点**：
+- `name` 必须是 `code-vanguard-coordinator`
+- `description` 不使用双引号（Skill 与 Agent 不同）
+- 正文包含完整的协作流程规范
+
+---
+
+### 专家配置
+
+**文件**：`agents/code-vanguard-[expert].md`
+
+**关键字段**：
+```yaml
+---
+name: code-vanguard-phoenix
+description: "Use this agent when you need to..."
+tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - Edit
+  - Bash
+  - mcp__sequential-thinking__sequentialthinking
+model: sonnet
+---
+
+# 以下是专家的正文内容
+# 包含核心能力、信息传递机制、调度指令理解等
+```
+
+**要点**：
+- `name` 格式：`code-vanguard-[expert-name]`
+- `description` **必须使用双引号**
+- `tools` 声明可用的工具（包括 MCP 工具）
+- 正文包含信息传递机制和调度指令理解
+
+---
+
+## 📋 配置检查清单
+
+安装完成后，请确认以下各项：
+
+### 协调器检查
+
+- [ ] 文件路径正确：`%USERPROFILE%\.claude\skills\code-vanguard-coordinator\skill.md`
+- [ ] name 字段正确：`code-vanguard-coordinator`
+- [ ] description 不使用双引号
+- [ ] description 包含模式标识：`using both sequential and parallel execution`
+- [ ] 核心原则完整（委托优先、自然语言触发、用户优先等）
+- [ ] 执行流程清晰（5 步流程）
+- [ ] MCP 授权机制完整
+- [ ] 三种触发格式完整（串行/并行/混合）
+
+### 专家检查
+
+- [ ] 文件路径正确：`%USERPROFILE%\.claude\agents\code-vanguard-*.md`
+- [ ] name 格式正确：`code-vanguard-[expert]`
+- [ ] description 使用双引号
+- [ ] description 长度在 200-350 字符
+- [ ] description 使用 `<example>` 标签
+- [ ] description 包含 `Uses Task tool to launch...`
+- [ ] tools 字段包含 MCP 工具声明
+- [ ] 正文包含信息传递机制
+- [ ] 正文包含调度指令理解章节
+
+### 团队一致性检查
+
+- [ ] 专家数量 2-6 个（本团队 4 个）
+- [ ] 专家名称带团队前缀 `code-vanguard-`
+- [ ] 成员触发词不重叠
+- [ ] MCP 能力与协调器速查表一致
+- [ ] 信息传递机制符合混合型团队
+
+---
+
+## 🚨 常见问题
+
+### Q1: 协调器无法触发专家？
+
+**可能原因**：
+- 专家配置文件未正确安装
+- 专家 `name` 字段与协调器不一致
+
+**解决方法**：
+1. 检查 `C:\Users\Mr.Chen\.claude\agents\` 目录下是否有 `code-vanguard-*.md` 文件
+2. 确认专家的 `name` 字段与协调器触发指令中的一致
+
+---
+
+### Q2: MCP 工具无法使用？
+
+**可能原因**：
+- 协调器未授权 MCP 工具
+- MCP 工具未在专家的 `tools` 字段中声明
+
+**解决方法**：
+1. 确认专家的 `tools` 字段包含 MCP 工具
+2. 协调器触发专家时需要明确授权 MCP 工具
+
+---
+
+### Q3: description 格式错误？
+
+**可能原因**：
+- Skill 的 description 使用了双引号
+- Agent 的 description 未使用双引号
+
+**解决方法**：
+- **Skill（协调器）**：description 不使用双引号
+- **Agent（专家）**：description 必须使用双引号
+
+---
+
+### Q4: 触发指令格式问题？
+
+**协调器触发格式**：
+```markdown
+使用 code-vanguard-[expert] 子代理执行 [任务描述]
+```
+
+**错误格式**：
+- ❌ 使用 code-vanguard-phoenix（缺少"子代理执行"）
+- ❌ code-vanguard-phoenix 子代理执行（缺少"使用"）
+
+**正确格式**：
+- ✅ 使用 code-vanguard-phoenix 子代理执行设计架构
+
+---
+
+## 🔄 更新配置
+
+如需更新现有配置：
+
+1. **备份现有配置**
+   ```bash
+   # 备份协调器
+   copy C:\Users\Mr.Chen\.claude\skills\code-vanguard-coordinator\skill.md backup_skill.md
+
+   # 备份专家
+   copy C:\Users\Mr.Chen\.claude\agents\code-vanguard-*.md backup_agents\
+   ```
+
+2. **复制新配置**
+   - 将新配置文件复制到对应目录
+   - 覆盖现有文件
+
+3. **验证更新**
+   - 触发协调器测试
+   - 确认专家正常工作
+
+---
+
+## 📞 支持
+
+如遇到问题，请检查：
+
+1. **文件路径**是否正确
+2. **配置格式**是否符合规范
+3. **描述字段**是否正确（双引号/无双引号）
+4. **tools 字段**是否包含所需工具
+
+---
+
+## ✅ 安装完成
+
+安装完成后，Code Vanguard 团队即可使用。
+
+**使用示例**：
+```markdown
+用户: 我需要一个完整的微服务架构设计
+协调器: 我将协调 Code Vanguard 团队完成此任务...
+
+=== 需求沟通 ===
+[协调器与用户确认需求...]
+
+=== 模式识别 ===
+执行模式：混合模式
+
+=== 任务规划 ===
+阶段1（串行）：Phoenix 设计架构
+阶段2（并行）：Viper 实现核心功能、Ghost 设计测试框架
+阶段3（串行）：Ghost 完整测试
+
+=== 触发专家 ===
+使用 code-vanguard-phoenix 子代理执行架构设计...
+```
+
+---
+
+**🎉 安装成功！祝使用愉快！**
